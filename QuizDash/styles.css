@@ -1,0 +1,129 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #6d78d2 0%, #526D82 100%);
+}
+
+.form-container {
+    background: linear-gradient(145deg, #A6B1E1, #9DB2BF);
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    max-width: 420px;
+    width: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+    text-align: center;
+    animation: slideIn 0.8s ease-in-out;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-container h2 {
+    color: #27374D;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-form input, .signup-form input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.login-form input:focus, .signup-form input:focus {
+    border-color: #27374D;
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.login-form input[type="submit"], .signup-form input[type="submit"] {
+    background: linear-gradient(145deg, #27374D, #526D82);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 20px;
+}
+
+.login-form input[type="submit"]:hover, .signup-form input[type="submit"]:hover {
+    background: linear-gradient(145deg, #526D82, #27374D);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.signup-link a, .login-link a {
+    color: #27374D;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.signup-link a:hover, .login-link a:hover {
+    color: #526D82;
+    text-decoration: underline;
+}
+
+.signup-link p, .login-link p {
+    color: #27374D;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.demo-accounts {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.demo-accounts p {
+    margin: 0;
+    font-size: 14px;
+    color: #27374D;
+    font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .form-container {
+        margin: 20px;
+        padding: 30px 20px;
+    }
+    
+    .form-container h2 {
+        font-size: 24px;
+    }
+    
+    .login-form input, .signup-form input {
+        padding: 12px;
+        font-size: 14px;
+    }
+}

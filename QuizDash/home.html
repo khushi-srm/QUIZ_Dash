@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizzo - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9DB2BF;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #dd6e9e;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #fff;
+        }
+
+        .logout-btn {
+            background: #6788c9;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .logout-btn:hover {
+            background: #27374D;
+        }
+
+        .search-bar {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .search-bar input[type="text"] {
+            padding: 10px;
+            width: 350px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            background-color: #526D82;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 5px;
+        }
+
+        main {
+            margin-top: 30px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #27374D;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #27374D;
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .card a, .card button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #526D82;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .card a:hover, .card button:hover {
+            background-color: #27374D;
+        }
+
+        .my-quizzes {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .quiz-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .quiz-item:last-child {
+            border-bottom: none;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .quiz-actions button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .share-btn {
+            background: #27AE60;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #E74C3C;
+            color: white;
+        }
+
+        .take-quiz-input {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .take-quiz-input input {
+            padding: 12px;
+            width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        footer {
+            background-color: #27374D;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="user-info">
+                <span id="userEmail"></span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+            <h1>Quiz Dashboard</h1>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search public quizzes...">
+                <button onclick="searchQuizzes()">Search</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="myQuizCount">0</div>
+                <div>My Quizzes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalAttempts">0</div>
+                <div>Total Attempts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgScore">0%</div>
+                <div>Average Score</div>
+            </div>
+        </div>
+
+        <div class="options">
+            <div class="card">
+                <h2>Create New Quiz</h2>
+                <p>Design your own quiz with custom questions and share it with others!</p>
+                <a href="create_quiz.html">Create Quiz</a>
+            </div>
+            <div class="card">
+                <h2>Take a Quiz</h2>
+                <p>Enter a quiz code or URL to attempt a quiz created by someone else.</p>
+                <button onclick="toggleTakeQuiz()">Take Quiz</button>
+            </div>
+            <div class="card">
+                <h2>Browse Public Quizzes</h2>
+                <p>Discover and attempt quizzes shared by the community.</p>
+                <button onclick="showPublicQuizzes()">Browse</button>
+            </div>
+        </div>
+
+        <div class="take-quiz-input hidden" id="takeQuizSection">
+            <h3>Enter Quiz Code or URL</h3>
+            <input type="text" id="quizCodeInput" placeholder="Enter quiz code (e.g., QZ123) or full URL">
+            <button onclick="takeQuiz()">Start Quiz</button>
+        </div>
+
+        <div class="my-quizzes">
+            <h2>My Quizzes</h2>
+            <div id="myQuizzesList">
+                <p>No quizzes created yet. <a href="create_quiz.html">Create your first quiz!</a></p>
+            </div>
+        </div>
+
+        <div class="my-quizzes hidden" id="publicQuizzesSection">
+            <h2>Public Quizzes</h2>
+            <div id="publicQuizzesList"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Made by Khushi Sharma. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="database.js"></script>
+    <script>
+        // Check if user is logged in
+        if (!isLoggedIn()) {
+            window.location.href = 'index.html';
+        }
+
+        // Display user info
+        document.getElementById('userEmail').textContent = getCurrentUser().email;
+
+        function logout() {
+            logoutUser();
+            window.location.href = 'index.html';
+        }
+
+        function toggleTakeQuiz() {
+            const section = document.getElementById('takeQuizSection');
+            section.classList.toggle('hidden');
+        }
+
+        function takeQuiz() {
+            const input = document.getElementById('quizCodeInput').value.trim();
+            if (!input) {
+                alert('Please enter a quiz code or URL');
+                return;
+            }
+
+            // Check if it's a full URL or just a code
+            if (input.startsWith('http')) {
+                window.location.href = input;
+            } else {
+                // Assume it's a quiz code
+                const quiz = getQuizByCode(input);
+                if (quiz) {
+                    window.location.href = `quiz.html?id=${quiz.id}`;
+                } else {
+                    alert('Quiz not found! Please check the code.');
+                }
+            }
+        }
+
+        function searchQuizzes() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (searchTerm) {
+                showPublicQuizzes(searchTerm);
+            }
+        }
+
+        function showPublicQuizzes(searchTerm = '') {
+            const section = document.getElementById('publicQuizzesSection');
+            const list = document.getElementById('publicQuizzesList');
+            
+            const publicQuizzes = getPublicQuizzes(searchTerm);
+            
+            if (publicQuizzes.length === 0) {
+                list.innerHTML = '<p>No public quizzes found.</p>';
+            } else {
+                list.innerHTML = publicQuizzes.map(quiz => `
+                    <div class="quiz-item">
+                        <div>
+                            <strong>${quiz.title}</strong>
+                            <p>By: ${quiz.creatorEmail} | ${quiz.questions.length} questions</p>
+                        </div>
+                        <div class="quiz-actions">
+                            <button onclick="window.location.href='quiz.html?id=${quiz.id}'" class="share-btn">
+                                Take Quiz
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            section.classList.remove('hidden');
+        }
+
+        function loadMyQuizzes() {
+            const currentUser = getCurrentUser();
+            const myQuizzes = getUserQuizzes(currentUser.email);
+            const list = document.getElementById('myQuizzesList');
+            
+            if (myQuizzes.length === 0) {
+                list.innerHTML = '<p>No quizzes created yet. <a href="create_quiz.html">Create your first quiz!</a></p>';
+            } else {
+                list.innerHTML = myQuizzes.map(quiz => `
+                    <div class="quiz-item">
+                        <div>
+                            <strong>${quiz.title}</strong>
+                            <p>Code: ${quiz.code} | ${quiz.questions.length} questions | ${getQuizAttempts(quiz.id)} attempts</p>
+                        </div>
+                        <div class="quiz-actions">
+                            <button onclick="shareQuiz('${quiz.id}')" class="share-btn">Share</button>
+                            <button onclick="viewResults('${quiz.id}')" class="share-btn">Results</button>
+                            <button onclick="deleteQuiz('${quiz.id}')" class="delete-btn">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function shareQuiz(quizId) {
+            const quiz = getQuiz(quizId);
+            const url = `${window.location.origin}/quiz.html?id=${quizId}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: quiz.title,
+                    text: `Take my quiz: ${quiz.title}`,
+                    url: url
+                });
+            } else {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert(`Quiz URL copied to clipboard!\nCode: ${quiz.code}\nURL: ${url}`);
+                });
+            }
+        }
+
+        function viewResults(quizId) {
+            window.location.href = `results.html?id=${quizId}`;
+        }
+
+        function deleteQuiz(quizId) {
+            if (confirm('Are you sure you want to delete this quiz?')) {
+                deleteQuizById(quizId);
+                loadMyQuizzes();
+                loadStats();
+            }
+        }
+
+        function loadStats() {
+            const currentUser = getCurrentUser();
+            const myQuizzes = getUserQuizzes(currentUser.email);
+            const myAttempts = getUserAttempts(currentUser.email);
+            
+            document.getElementById('myQuizCount').textContent = myQuizzes.length;
+            document.getElementById('totalAttempts').textContent = myAttempts.length;
+            
+            if (myAttempts.length > 0) {
+                const avgScore = myAttempts.reduce((sum, attempt) => sum + attempt.score, 0) / myAttempts.length;
+                document.getElementById('avgScore').textContent = Math.round(avgScore) + '%';
+            }
+        }
+
+        // Load data on page load
+        loadMyQuizzes();
+        loadStats();
+    </script>
+</body>
+</html>

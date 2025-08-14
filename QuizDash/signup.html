@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizzo - Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>JOIN QUIZZO</h2>
+        <form class="signup-form" id="signupForm">
+            <input type="text" placeholder="Full Name" id="fullName" required>
+            <input type="email" placeholder="Email" id="email" required>
+            <input type="password" placeholder="Password" id="password" required>
+            <input type="password" placeholder="Confirm Password" id="confirmPassword" required>
+            <input type="submit" value="Sign Up">
+        </form>
+        <div class="login-link">
+            <p>Already have an account? <a href="index.html">Log In</a></p>
+        </div>
+    </div>
+    
+    <script src="auth.js"></script>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            if (register(fullName, email, password)) {
+                alert('Account created successfully! Please login.');
+                window.location.href = 'index.html';
+            } else {
+                alert('Email already exists!');
+            }
+        });
+    </script>
+</body>
+</html>
